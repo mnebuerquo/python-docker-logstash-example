@@ -1,0 +1,6 @@
+pytest-watch
+flake8
+
+python-logstash-async
+logstash_formatter
+flask
