@@ -1,11 +1,12 @@
 # This file shows how to add a log handler to flask.
 import logging
 from logsetup import get_handler
+from request_formatter import RequestFormatter
 from flask import Flask
 
 app = Flask(__name__)
-handler = get_handler({"extra_string": "flask is the task"})
-# app.logger.addHandler()
+formatter = RequestFormatter({"extra_string": "flask is the task"})
+handler = get_handler(formatter=formatter)
 root = logging.getLogger()
 root.addHandler(handler)
 

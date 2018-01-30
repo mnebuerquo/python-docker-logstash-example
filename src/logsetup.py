@@ -21,10 +21,15 @@ logstash_port = int(os.getenv('LOGSTASH_PORT', 5959))
 database_path = os.getenv('LOGSTASH_DB_PATH', 'logstash.db')
 
 
-def get_handler(extra={}):
+def get_formatter(extra={}):
+    return LogstashFormatterV1(fmt=json.dumps({"extra": extra}))
+
+
+def get_handler(extra={}, formatter=None):
     extra['logstash_host'] = logstash_host
     extra['logstash_port'] = logstash_port
-    formatter = LogstashFormatterV1(fmt=json.dumps({"extra": extra}))
+    if not formatter:
+        formatter = get_formatter(extra)
     handler = AsynchronousLogstashHandler(logstash_host, logstash_port,
                                           database_path=database_path)
     handler.setFormatter(formatter)
